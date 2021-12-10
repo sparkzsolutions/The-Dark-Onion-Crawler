@@ -1,0 +1,16 @@
+version: "3"
+services:
+  tor-proxy:
+    image: dperson/torproxy
+    ports:
+      - "8118:8118" # Privoxy.
+      - "9051:9051" # Tor Control.
+    environment:
+      PASSWORD: "tor"
+      TOR_ControlPort: "0.0.0.0:9051"
+  scraper:
+    build: ./src
+    depends_on:
+      - "tor-proxy"
+    environment:
+      TOR_PASSWORD: "tor"
